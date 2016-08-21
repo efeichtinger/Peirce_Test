@@ -77,14 +77,21 @@ x = Test(Concept1,Concept2)
 
 ## need to re-write these to reflect the proper function 
 
-if(x$detailedResult[1])
-{
+
+if(x$detailedResult[1]==TRUE){
   print("Same Word")
+} else {
+  print("No match")
 }
-if(x$detailedResult[2])
+
+if(x$detailedResult[2]==TRUE)
 {
   print("Same Language")
+} else {
+  print("Not the same")
 }
+
+
 if(x$detailedResult[3])
 {
   #if decode is the same
