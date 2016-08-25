@@ -1,5 +1,7 @@
 #Peirce August 24 2016
 
+library(stringr)
+library(tidyr)
 
 #Function for integers only 
 Peirce =  function(DF)
@@ -128,23 +130,14 @@ y2 <- rep(LETTERS[1:6],1)
 z3 <- c("a","b","c","d","e","f")
 df2 <- data.frame(x,y,z)
 
+require(tidyr)
+
+              
+               
 Peirce.char = function(DF){
+  #
+  data <- DF %>% unite(strvec, 1, 2, 3, sep = ",")
   
-  
-  
-  col1 = DF[,1];
-  col2 = DF[,2];  #what's with the semi-colons?
-  col3 = DF[,3]; 
-  
-  for (k in 1:nrow(DF)){    #want to construct a loop to make each row a 
-    str.vec <- c(col1, col2, col3) #character vector 
-  }  
-  
-  for (i in 1:nrow(DF)){
-    
-    grep(i,1:nrow(DF))
-  }
-  
-}
+ 
 
 ###%in%
