@@ -3,6 +3,7 @@
 library(stringr)
 library(tidyr)
 library(plyr)
+library(compare)
 
 #Function for integers only 
 Peirce =  function(DF)
@@ -119,9 +120,9 @@ df <- data.frame(x,y,z)
 test.int <- Peirce(df)
 
 
-x1 <- floor(runif(20, min=0, max=101))
-y1 <- floor(runif(20, min=0, max=101))
-z1 <- floor(runif(20, min=0, max=101))
+x1 <- floor(runif(100, min=0, max=101))
+y1 <- floor(runif(100, min=0, max=101))
+z1 <- floor(runif(100, min=0, max=101))
 df1 <- data.frame(x1,y1,z1)
 test2 <- Peirce(df1)
 
@@ -131,14 +132,14 @@ test2 <- Peirce(df1)
 x2 <- c("cat","cat","cat","dog","dog","dog")
 y2 <- rep(LETTERS[1:6],1)
 z3 <- c("a","b","c","d","e","f")
-df2 <- data.frame(x,y,z)
+df2 <- data.frame(x2,y2,z3)
 
 twitter <- read.csv("Twitter_Peirce.csv")
 class(twitter)
 head(twitter)
 str(twitter)
 
-
+#### September 20 2016
 
 
 #function from N Matloff book pg 92
@@ -154,9 +155,18 @@ findwords <- function(tf) {
   
 }
 
+
+
 test.output <- findwords("Twitter_Peirce2.txt")
 length(test.output)
 #139 - words in data set 
+
+#Is it worth it to make a dataframe of the same dimensions for counting?
+#As is make a df with each cell filled in the same space number as specifed
+#by the program? 
+
+#What about something like "replies to"? It counts this as two words
+#Add piece of code to merge two words into 1? 
 
 #returns name and the place in list
 test.output[10]
@@ -189,22 +199,50 @@ find.intrp <-
 
 
                             
-Peirce.char = function(DF){
+#Peirce.char = function(DF){
   #creates a data frame of 1 column and n rows 
   #each row has three components, obs from col1,2,and 3
-  data <- DF %>% unite(strvec, 1, 2, 3, sep = ",")
-  data[,"index"] <- c(rownames(data))
-  return(data)
+  #data <- DF %>% unite(strvec, 1, 2, 3, sep = ",")
+  #data[,"index"] <- c(rownames(data))
+  #return(data)
   
   #now need to loop through each row and compare it to all other rows 
-    for(i in 1:nrow(data)) {
-    triad <- data[i,]
-    grep("^[[:alpha:]]",triad) #the problem is I don't know what to tell
-                                #r to look for, stringr looks for regex
-                                #I want it to look for any sequence characters
+
+
+#### Sept 8
+Peirce.char <- function(DF){ 
+  sign <- DF[,1]
+  obj <- DF[,2]
+  intrp <- DF[,3]
+
+  #for(i in 1:nrow(DF)) {
     
-  }
-  
+    
+   # x <- compare(DF[1,], DF[2,])# comparing across rows of data frame
+    #return(x)
+    
+    check.match <- function(a,b){    #Input should be data frame 
+      x <- compare(a[1,],b[2,])
+      return(x)
+    }
+      signobj <- check.match(sign, obj)
+      sigintrp <- check.match(sign, obj)
+      objintrp <- check.match(obj, intrp)
+    
+    
+    }
+    
+    #grep("^[[:alpha:]]",triad) #the problem is I don't know what to tell
+                                #r to look for, stringr looks for regex
+                                #I want it to look for any sequence character
+
+#}
+
+#### 9 20 2016 - this compares two rows and returns T or F for entire row
+#then returns 3 T or F for each column position 
+check.match <- function(DF){
+  x <- compare(df[1,],df[2,])
+  return(x)
 }
 
 
